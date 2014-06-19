@@ -36,6 +36,7 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'haml'
   gem 'awesome_print'
+  gem 'guard-livereload', require: false
 end
 
 group :doc do
