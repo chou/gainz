@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   validates_presence_of :birthdate
   validates_presence_of :height
+  validates_presence_of :weight
+  validates_presence_of :activity_x
+  validates_presence_of :lean_mass
   validates_presence_of :first_name
   validates_presence_of :last_name
   validates_uniqueness_of :email

@@ -25,7 +25,7 @@ describe 'a user' do
     end
 
     def extract_primary_stats
-      primary_stats_keys = ['height', 'birthdate', 'body_fat', 'activity_x', 'weight']
+      primary_stats_keys = ['height', 'birthdate', 'lean_mass', 'activity_x', 'weight']
       primary_stats = user.attributes.select { |a| primary_stats_keys.include? a }
     end
 
