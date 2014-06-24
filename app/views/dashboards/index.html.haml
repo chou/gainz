@@ -1,8 +1,9 @@
 = render 'shared/top_nav'
 
-= form_for @user, url: {action: 'update'} do |f|#, html: {class: ''} do |f|
+= form_for @user, url: {controller: 'users', action: 'update'} do |f|#, html: {class: ''} do |f|
   = f.text_field :height
   = f.text_field :birthdate
   = f.text_field :weight
   = f.text_field :activity_x
   = f.text_field :lean_mass
+  = f.submit 'Save'

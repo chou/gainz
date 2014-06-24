@@ -9,9 +9,9 @@
   %section{:class => 'top-bar-section'}
     <!-- Right Nav Section -->
     %ul{:class => 'right'}
-      %li{:class => 'active'}
-        = link_to 'Profile', '#'
-      %li{:class => 'has-dropdown'}
+      %li
+        = link_to "Hi, #{current_user.first_name}", '#'
+      %li{:class => 'has-dropdown active'}
         %a{:href => '#'} Track
         %ul{:class => 'dropdown'}
           %li

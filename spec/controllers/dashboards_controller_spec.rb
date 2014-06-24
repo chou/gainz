@@ -14,6 +14,16 @@ describe DashboardsController, type: :controller do
         expect(response).to be_success
         expect(response).to render_template "dashboards/index"
       end
+
+      it 'passes along primary stats' do
+        get :index
+        expect(assigns :id).to eq user.id
+        expect(assigns :height).to eq user.height
+        expect(assigns :weight).to eq user.weight
+        expect(assigns :birthdate).to eq user.birthdate
+        expect(assigns :lean_mass).to eq user.lean_mass
+        expect(assigns :activity_x).to eq user.activity_x
+      end
     end
 
     context 'when there is no user logged in' do

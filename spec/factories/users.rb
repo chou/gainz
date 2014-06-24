@@ -1,6 +1,10 @@
 FactoryGirl.define do
+  sequence :email do |n|
+    "max@gainz_#{n}.com"
+  end
+
   factory :user do
-    email 'max@gainz.com'
+    email
     password "7n4qGRW47gc^$#b"
     birthdate DateTime.new(2011, 8, 1)
     lean_mass 95.2
