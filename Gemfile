@@ -30,7 +30,7 @@ group :test, :development do
   gem 'jasmine'
   gem 'guard'
   gem 'guard-rspec', '>= 4.2.3'
-  gem 'capybara'
+  gem 'capybara', github: 'jnicklas/capybara', branch: 'master' # 'gross, but gets rid of annoying deprecation warning'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'shoulda-matchers'
   gem 'rspec-rails'
