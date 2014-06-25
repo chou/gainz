@@ -22,6 +22,8 @@ describe DashboardsController, type: :controller do
         expect(assigns :weight).to eq user.weight
         expect(assigns :birthdate).to eq user.birthdate
         expect(assigns :lean_mass).to eq user.lean_mass
+        expect(assigns :first_name).to eq user.first_name
+        expect(assigns :last_name).to eq user.last_name
         expect(assigns :activity_x).to eq user.activity_x
       end
     end

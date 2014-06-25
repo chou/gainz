@@ -9,7 +9,7 @@
   %section{:class => 'top-bar-section'}
     <!-- Right Nav Section -->
     %ul{:class => 'right'}
-      = if current_user
+      - if current_user
         %li
           = link_to "Hi, #{current_user.first_name}", '#'
       %li{:class => 'has-dropdown active'}

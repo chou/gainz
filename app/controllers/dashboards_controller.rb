@@ -6,6 +6,7 @@ class DashboardsController < ApplicationController
     @age        = current_user.age
     @birthdate  = current_user.birthdate
     @first_name = current_user.first_name
+    @last_name  = current_user.last_name
     @height     = current_user.height
     @id         = current_user.id
     @lean_mass  = current_user.lean_mass

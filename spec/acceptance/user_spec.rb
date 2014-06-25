@@ -44,8 +44,9 @@ describe 'a user', type: :feature do
     end
 
     it 'can enter primary stats' do
-      primary_stats = extract_primary_stats
+      visit dashboards_path
 
+      primary_stats = extract_primary_stats
       primary_stats.each do |key, val|
         fill_in "user[#{key}]", with: val
       end
@@ -56,6 +57,19 @@ describe 'a user', type: :feature do
       primary_stats.each do |key, val|
         expect(find_field("user[#{key}]").value).to eq val.to_s
       end
+    end
+
+    it 'can edit account information' do
+      visit dashboards_path
+
+      fill_in "user[first_name]", with: 'Doyou'
+      fill_in "user[last_name]", with: 'Evenlift'
+
+      click_on 'Save'
+      visit dashboards_path
+
+      expect(find_field("user[first_name]").value).to eq 'Doyou'
+      expect(find_field("user[last_name]").value).to eq 'Evenlift'
     end
   end
 end
