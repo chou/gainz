@@ -1,8 +1,12 @@
-herrooo
 = form_tag session_path(:user) do
+  %label{ :for => 'user[email]'} Email
   = text_field_tag 'user[email]'
+  %label{ :for => 'user[password]'} Password
   = password_field_tag 'user[password]'
-  = check_box_tag 'user[remember_me]'
-  = label_tag 'user[remember_me]', 'Remember me'
-  %button Log In
   = link_to "Forgot your password?", new_user_password_path(:user)
+  .remember_me
+    = check_box_tag'user[remember_me]'
+    %label{ :for => 'user[remember_me]', :class => 'checkbox_label'} Remember Me
+  %button{ :class => 'clearfix' } Log In
+
+= link_to "Sign Up", new_user_registration_path
