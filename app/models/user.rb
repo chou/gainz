@@ -3,13 +3,13 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   validates_presence_of :email
-  validates_presence_of :birthdate
-  validates_presence_of :height
-  validates_presence_of :weight
-  validates_presence_of :activity_x
-  validates_presence_of   :lean_mass
-  validates_presence_of   :first_name
-  validates_presence_of   :last_name
+  validates_presence_of :birthdate,  on: :update
+  validates_presence_of :height,     on: :update
+  validates_presence_of :weight,     on: :update
+  validates_presence_of :activity_x, on: :update
+  validates_presence_of :lean_mass,  on: :update
+  validates_presence_of :first_name, on: :update
+  validates_presence_of :last_name,  on: :update
 
   validates_uniqueness_of :email
 
@@ -17,7 +17,9 @@ class User < ActiveRecord::Base
                        :lean_mass, :first_name, :last_name ]
 
   def age
-    ((DateTime.now - birthdate.to_datetime) / 365).round
+    if birthdate
+      return ((DateTime.now - birthdate) / 365).round
+    end
   end
 
 end

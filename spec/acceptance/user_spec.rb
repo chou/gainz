@@ -1,13 +1,27 @@
 require 'spec_helper'
 require 'helpers/acceptance_spec_helpers'
 
-describe 'a user' do
+describe 'a user', type: :feature do
+  describe 'a person signing up' do
+    it 'is successful' do
+      visit root_url
+      click_on 'Sign Up'
+
+      fill_in 'user[email]', with: 'max@gainz.com'
+      fill_in 'user[password]', with: 'fakepassword'
+      fill_in 'user[password_confirmation]', with: 'fakepassword'
+      
+      expect { click_on 'Sign up' }.to change { User.all.count }.by 1
+      expect(User.last.email).to eq 'max@gainz.com'
+    end
+  end
+
   let!(:user) {
     FactoryGirl.create(User, first_name: 'Max', last_name: 'Gainz',
                  password: '1moarREP', height: 180
     )}
 
-  describe 'a user logging in', type: :feature do
+  describe 'a user logging in' do
     it 'has a happy path' do
       visit root_url
       fill_in 'user[email]', with: user.email
@@ -19,7 +33,7 @@ describe 'a user' do
     end
   end
 
-  describe 'an onboarding user', type: :feature do
+  describe 'an onboarding user' do
     before do
       sign_in_user user
     end
