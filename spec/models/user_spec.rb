@@ -12,4 +12,11 @@ describe User do
 
   it { should validate_uniqueness_of :email }
 
+  describe '#age' do
+    let! (:user) { create(User, birthdate: DateTime.new(2000, 1, 1)) }
+    it "should return the user's age in years" do
+      #use TimeCop for this later when less lazy
+      expect(user.age).to eq 14
+    end
+  end
 end
