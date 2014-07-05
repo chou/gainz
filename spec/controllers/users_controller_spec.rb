@@ -38,7 +38,7 @@ describe UsersController, type: :controller do
         it 'should succeed and redirect to the dashboards path' do
           put :update, id: user.id, user: user.attributes
 
-          expect(response).to be_success
+          expect(response.status).to eq 302
           expect(User.find(user.id).height).to eq permitted_params[:height]
         end
       end

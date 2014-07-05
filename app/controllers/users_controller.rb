@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       user.assign_attributes(user_params)
       if user.save
         set_template_vars(user)
-        redirect_to dashboards_path, status: :ok
+        redirect_to dashboards_path
       else
         add_generic_error!
         render 'dashboards/index', status: :bad_request
