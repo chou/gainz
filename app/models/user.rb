@@ -11,12 +11,12 @@ class User < ActiveRecord::Base
   validates_presence_of :first_name, on: :update
   validates_presence_of :last_name,  on: :update
 
-  validates :height, numericality: true
-  validates :weight, numericality: true
-  validates :activity_x, numericality: true
-  validates :lean_mass, numericality: true
+  validates :height, numericality: true, on: :update
+  validates :weight, numericality: true, on: :update
+  validates :activity_x, numericality: true, on: :update
+  validates :lean_mass, numericality: true, on: :update
 
-  validate :birthdate_is_date
+  validate :birthdate_is_date, on: :update
   validates_uniqueness_of :email
 
   PERMITTED_PARAMS = [ :email, :birthdate, :height, :weight, :activity_x,
