@@ -10,7 +10,7 @@ describe 'a user', type: :feature do
       fill_in 'user[email]', with: 'max@gainz.com'
       fill_in 'user[password]', with: 'fakepassword'
       fill_in 'user[password_confirmation]', with: 'fakepassword'
-      
+
       expect { click_on 'Sign up' }.to change { User.all.count }.by 1
       expect(User.last.email).to eq 'max@gainz.com'
     end
@@ -66,7 +66,6 @@ describe 'a user', type: :feature do
       fill_in "user[last_name]", with: 'Evenlift'
 
       click_on 'Save'
-      visit dashboards_path
 
       expect(find_field("user[first_name]").value).to eq 'Doyou'
       expect(find_field("user[last_name]").value).to eq 'Evenlift'
