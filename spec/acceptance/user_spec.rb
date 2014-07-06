@@ -5,13 +5,18 @@ describe 'a user', type: :feature do
   describe 'a person signing up' do
     it 'is successful' do
       visit root_url
-      click_on 'Sign Up'
+      click_on 'Make Gainz'
 
       fill_in 'user[email]', with: 'max@gainz.com'
       fill_in 'user[password]', with: 'fakepassword'
       fill_in 'user[password_confirmation]', with: 'fakepassword'
 
-      expect { click_on 'Sign up' }.to change { User.all.count }.by 1
+      expect {
+        within(".new_user") do
+          click_on 'Sign Up'
+        end
+        }.to change { User.all.count }.by 1
+
       expect(User.last.email).to eq 'max@gainz.com'
     end
   end
@@ -41,6 +46,12 @@ describe 'a user', type: :feature do
     def extract_primary_stats
       primary_stats_keys = ['height', 'lean_mass', 'activity_x', 'weight']
       primary_stats = user.attributes.select { |a| primary_stats_keys.include? a }
+    end
+
+    it 'can sign out' do
+      visit dashboards_path
+      click_on 'Sign Out'
+      expect(page).to have_content 'Signed out successfully'
     end
 
     it 'can enter primary stats' do
