@@ -13,7 +13,7 @@ describe UsersController, type: :controller do
                               weight: 190
                             }
                           }
-    let(:user){ create(User, permitted_params) }
+    let(:user){ create(:user, permitted_params) }
 
     it 'should load the current template vars' do
       expect(controller).to receive(:current_user).at_least(:once).and_return user
@@ -57,8 +57,8 @@ describe UsersController, type: :controller do
     end
 
     context 'when the account edited does not belong to the current user' do
-      let!(:victim) { create(User, id: 1765) }
-      let!(:malicious_user) { create(User) }
+      let!(:victim) { build(:user, id: 1765) }
+      let!(:malicious_user) { build(:user) }
       let(:troll_attrs) { victim.attributes.merge({ 'first_name' => 'No' }) }
 
       before do

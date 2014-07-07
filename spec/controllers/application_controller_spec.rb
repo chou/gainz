@@ -4,8 +4,8 @@ describe ApplicationController do
   describe '#current_user_authorized?' do
 
     context "when current user has different id from params[:user]['id']" do
-      let!(:victim) { create(User, id: 1765) }
-      let(:malicious_user) { create(User) }
+      let!(:victim) { build(:user, id: 1765) }
+      let(:malicious_user) { build(:user) }
       let(:troll_attrs) { { user: victim.attributes.merge({ 'first_name' => 'No' }) } }
 
       before do
@@ -20,7 +20,7 @@ describe ApplicationController do
     end
 
     context "when current user has same id as params[:user]['id']" do
-      let(:user) { create(User) }
+      let(:user) { build(:user, id: 4888) }
       let(:new_attrs) { { user: user.attributes.merge({ 'activity_x' => 2 }) } }
 
       before do

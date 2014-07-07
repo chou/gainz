@@ -15,7 +15,7 @@ end
 
 describe User do
   context 'when updating the user' do
-    user = FactoryGirl.create(User)
+    user = FactoryGirl.build(:user)
 
     it 'should have a numerical height' do
       user.height = 'not_a_number'
@@ -39,7 +39,7 @@ describe User do
   end
 
   describe '#age' do
-    let! (:user) { create(User, birthdate: Date.new(2000, 1, 1)) }
+    let! (:user) { build(:user, birthdate: Date.new(2000, 1, 1)) }
 
     it "should return the user's age in years" do
       Timecop.freeze(Date.new(2014,1,1)) do
