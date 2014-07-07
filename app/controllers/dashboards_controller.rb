@@ -1,7 +1,7 @@
 class DashboardsController < ApplicationController
-  before_action :authenticate_user!, only: :index
+  before_action :authenticate_user!, only: :show
 
-  def index
+  def show
     @activity_x = current_user.activity_x
     @age        = current_user.age
     @birthdate  = current_user.birthdate

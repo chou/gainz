@@ -49,13 +49,13 @@ describe 'a user', type: :feature do
     end
 
     it 'can sign out' do
-      visit dashboards_path
+      visit dashboard_path
       click_on 'Sign Out'
       expect(page).to have_content 'Signed out successfully'
     end
 
     it 'can enter primary stats' do
-      visit dashboards_path
+      visit dashboard_path
 
       primary_stats = extract_primary_stats
       primary_stats.each do |key, val|
@@ -63,7 +63,7 @@ describe 'a user', type: :feature do
       end
 
       click_on 'Save'
-      visit dashboards_path
+      visit dashboard_path
 
       primary_stats.each do |key, val|
         expect(find_field("user[#{key}]").value).to eq val.to_s

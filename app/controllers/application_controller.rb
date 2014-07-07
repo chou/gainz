@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    dashboards_path
+    dashboard_path
   end
 
   def current_user_authorized?

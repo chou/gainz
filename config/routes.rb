@@ -1,6 +1,6 @@
 Lg::Application.routes.draw do
   devise_for :users
-  resources :dashboards, only: [:index]
+  resource :dashboard, only: [:show]
   resources :users, only: [:update]
 
   resource :home, only: :show

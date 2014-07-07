@@ -35,7 +35,7 @@ describe UsersController, type: :controller do
       end
 
       context 'when the params are valid' do
-        it 'should succeed and redirect to the dashboards path' do
+        it 'should succeed and redirect to the dashboard path' do
           put :update, id: user.id, user: user.attributes
 
           expect(response.status).to eq 302
@@ -51,7 +51,7 @@ describe UsersController, type: :controller do
           expect(controller).to receive :add_generic_error!
           put :update, id: user.id, user: invalid_attrs
           expect(response.status).to eq 400
-          expect(response).to render_template 'dashboards/index'
+          expect(response).to render_template 'dashboards/show'
         end
       end
     end
@@ -62,15 +62,16 @@ describe UsersController, type: :controller do
       let(:troll_attrs) { victim.attributes.merge({ 'first_name' => 'No' }) }
 
       before do
+        expect(User).to receive(:find).with(victim.id.to_s).and_return victim
         expect(controller).to receive(:current_user).at_least(:once).and_return malicious_user
       end
 
 
-      it 'should forbid the update and re-render dashboards/index' do
+      it 'should forbid the update and re-render dashboards/show' do
         put :update, id: victim.id, user: troll_attrs
 
         expect(response.status).to eq 401
-        expect(response).to render_template 'dashboards/index'
+        expect(response).to render_template 'dashboards/show'
       end
 
       it 'should call #add_generic_error!' do
