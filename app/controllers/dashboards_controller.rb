@@ -12,5 +12,4 @@ class DashboardsController < ApplicationController
     @lean_mass  = current_user.lean_mass
     @weight     = current_user.weight
   end
-
 end
