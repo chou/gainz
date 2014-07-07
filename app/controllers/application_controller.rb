@@ -12,6 +12,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user_authorized?
-    params[:user]['id'].to_i == current_user.id
+    if params[:user]
+      params[:user]['id'].to_i == current_user.id
+    else
+      flash[:error] = 'Missing user params'
+      false
+    end
   end
 end

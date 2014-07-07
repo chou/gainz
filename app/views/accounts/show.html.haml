@@ -1,0 +1,19 @@
+%form{:action => "/users/#{@id}", :id => "edit_user_#{@id}", :method => 'post'}
+  %input{ :name => '_method', :type => 'hidden', :value => 'PUT'}
+  %input{ :name => 'user[id]', :type => 'hidden', :value => @id}
+  %input{ :name => 'authenticity_token', :type => 'hidden', :value => "#{form_authenticity_token}"}
+  %label{ :for => 'user_first_name' } First Name
+  %input{ :id => 'user_first_name', :name => 'user[first_name]', :type => 'text', :value => @first_name }
+  %label{ :for => 'user_last_name' } Last Name
+  %input{ :id => 'user_last_name', :name => 'user[last_name]', :type => 'text', :value => @last_name }
+  %label{ :for => 'user_height' } Height
+  %input{ :id => 'user_height', :name => 'user[height]', :type => 'text', :value => @height }
+  %label{ :for => 'user_weight' } Weight
+  %input{ :id => 'user_weight', :name => 'user[weight]', :type => 'text', :value => @weight}
+  %label{ :for => 'user_birthdate' } Birthdate
+  %input{ :id => 'user_birthdate', :name => 'user[birthdate]', :type => 'text', :value => @birthdate}
+  %label{ :for => 'user_activity_x' } Activity X
+  %input{ :id => 'user_activity_x', :name => 'user[activity_x]', :type => 'text', :value => @activity_x}
+  %label{ :for => 'user_lean_mass' } Lean Mass
+  %input{ :id => 'user_lean_mass', :name => 'user[lean_mass]', :type => 'text', :value => @lean_mass}
+  %input{ :class => 'button tiny', :type => 'submit', :value => 'Save'}

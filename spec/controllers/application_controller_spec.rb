@@ -10,7 +10,7 @@ describe ApplicationController do
 
       before do
         expect(controller).to receive(:current_user).and_return malicious_user
-        expect(controller).to receive(:params).and_return troll_attrs
+        expect(controller).to receive(:params).exactly(:twice).and_return troll_attrs
       end
 
       it 'should return false' do
@@ -25,7 +25,7 @@ describe ApplicationController do
 
       before do
         expect(controller).to receive(:current_user).and_return user
-        expect(controller).to receive(:params).and_return new_attrs
+        expect(controller).to receive(:params).exactly(:twice).and_return new_attrs
       end
 
       it 'should return true' do
