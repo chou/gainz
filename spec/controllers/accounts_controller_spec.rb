@@ -4,13 +4,6 @@ describe AccountsController do
   describe '#show' do
     let!(:user){ build(:user) }
 
-    it 'authenticates the user' do
-      expect(controller).to receive(:current_user_authorized?)
-      expect(controller).to receive(:current_user).at_least(:once).and_return user
-
-      get :show, user: user.attributes
-    end
-
     it 'passes all account vars' do
       expect(controller).to receive(:current_user).at_least(:once).and_return user
       get :show, user: user.attributes

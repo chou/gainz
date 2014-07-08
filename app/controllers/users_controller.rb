@@ -1,20 +1,17 @@
 class UsersController < ApplicationController
+  before_filter :authorize_user, only: :update
+
   def update
     user = User.find(params[:id])
     set_template_vars(user)
 
-    if current_user_authorized?
-      user.assign_attributes(user_params)
-      if user.save
-        set_template_vars(user)
-        redirect_to dashboard_path
-      else
-        add_generic_error!
-        render 'dashboards/show', status: :bad_request
-      end
+    user.assign_attributes(user_params)
+    if user.save
+      set_template_vars(user)
+      redirect_to dashboard_path
     else
       add_generic_error!
-      render 'dashboards/show', status: :unauthorized
+      render 'dashboards/show', status: :bad_request
     end
   end
 

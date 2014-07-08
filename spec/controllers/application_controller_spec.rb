@@ -15,7 +15,6 @@ describe ApplicationController do
 
       it 'should return false' do
         expect(controller.current_user_authorized?).to be_falsy
-        #what's going on here? why does subject !== controller?
       end
     end
 
@@ -30,6 +29,31 @@ describe ApplicationController do
 
       it 'should return true' do
         expect(controller.current_user_authorized?).to be_truthy
+      end
+    end
+  end
+
+  describe '#authorize_user' do
+    context "when current user is not authorized" do
+      it 'redirects to sign in' do
+        expect(controller).to receive(:current_user_authorized?).
+          exactly(:once).and_return(false)
+        expect_any_instance_of(ApplicationController).
+          to receive(:redirect_to).with new_user_session_path
+
+        controller.authorize_user
+      end
+    end
+
+    context "when current user is authorized" do
+      let(:user) { build(:user) }
+      it 'does not redirect' do
+        expect(controller).to receive(:current_user_authorized?).
+          exactly(:once).and_return(true)
+
+        controller.authorize_user
+        expect_any_instance_of(ApplicationController).
+          not_to receive(:redirect_to).with new_user_session_path
       end
     end
   end

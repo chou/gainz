@@ -15,6 +15,12 @@ describe UsersController, type: :controller do
                           }
     let(:user){ create(:user, permitted_params) }
 
+    it 'should check user authorization' do
+      expect(controller).to receive(:authorize_user)
+
+      put :update, id: user.id, user: user.attributes
+    end
+
     it 'should load the current template vars' do
       expect(controller).to receive(:current_user).at_least(:once).and_return user
       put :update, id: user.id, user: user.attributes.merge('first_name' => 'Moar')
@@ -62,21 +68,13 @@ describe UsersController, type: :controller do
       let(:troll_attrs) { victim.attributes.merge({ 'first_name' => 'No' }) }
 
       before do
-        expect(User).to receive(:find).with(victim.id.to_s).and_return victim
         expect(controller).to receive(:current_user).at_least(:once).and_return malicious_user
       end
 
-
-      it 'should forbid the update and re-render dashboards/show' do
+      it 'should redirect to sign in' do
         put :update, id: victim.id, user: troll_attrs
 
-        expect(response.status).to eq 401
-        expect(response).to render_template 'dashboards/show'
-      end
-
-      it 'should call #add_generic_error!' do
-        expect(controller).to receive :add_generic_error!
-        put :update, id: victim.id, user: troll_attrs
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end

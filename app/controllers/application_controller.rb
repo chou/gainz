@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
     dashboard_path
   end
 
+  def authorize_user
+    redirect_to new_user_session_path unless current_user_authorized?
+  end
+
   def current_user_authorized?
     if params[:user]
       params[:user]['id'].to_i == current_user.id
