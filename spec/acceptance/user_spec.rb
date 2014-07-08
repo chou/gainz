@@ -70,7 +70,7 @@ describe 'a user', type: :feature do
       end
     end
 
-    xit 'can edit account information' do
+    it 'can edit account information' do
       visit user_account_path
 
       fill_in "user[first_name]", with: 'Doyou'

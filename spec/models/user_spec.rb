@@ -15,25 +15,25 @@ end
 
 describe User do
   context 'when updating the user' do
-    user = FactoryGirl.build(:user)
+    user = FactoryGirl.create(:user)
 
     it 'should have a numerical height' do
       user.height = 'not_a_number'
       expect(user).not_to be_valid
     end
 
-    it 'should have a numerical height' do
-      user.height = 'not_a_number'
+    it 'should have a numerical weight' do
+      user.weight = 'not_a_number'
       expect(user).not_to be_valid
     end
 
-    it 'should have a numerical height' do
-      user.height = 'not_a_number'
+    it 'should have a numerical lean_mass' do
+      user.lean_mass = 'not_a_number'
       expect(user).not_to be_valid
     end
 
-    it 'should have a numerical height' do
-      user.height = 'not_a_number'
+    it 'should have a numerical activity_x' do
+      user.activity_x = 'not_a_number'
       expect(user).not_to be_valid
     end
   end
