@@ -1,8 +1,48 @@
 require 'spec_helper'
 
 describe ApplicationController do
-  describe '#current_user_authorized?' do
 
+  it 'has proper Devise integration' do
+    ApplicationController.send(:public, :resource_class, :resource_name)
+
+    expect(controller.resource_class).to eq User
+    expect(controller.resource_name).to eq :user
+  end
+
+  describe '#require_session' do
+    let(:user) { build(:user, id: 853) }
+
+    context 'when there is no current user' do
+      it 'redirects to sign in' do
+        expect(controller).to receive(:current_user).and_return nil
+        expect(controller).to receive(:redirect_to).with new_user_session_path
+
+        controller.require_session
+      end
+    end
+
+    context 'when there is a current user' do
+      let(:user) { build(:user, id: 853) }
+
+      it 'does not redirect' do
+        expect(controller).to receive(:current_user).and_return user
+
+        controller.require_session
+        expect(controller).not_to receive(:redirect_to).
+          with new_user_session_path
+      end
+    end
+  end
+
+  describe '#add_generic_error!' do
+    it 'should add a particular string to flash[:error]' do
+      expect { controller.add_generic_error! }.
+        to change { flash[:error] }.
+          to ApplicationController::GENERIC_ERROR_MSG
+    end
+  end
+
+  describe '#current_user_authorized?' do
     context "when current user has different id from params[:user]['id']" do
       let!(:victim) { build(:user, id: 1765) }
       let(:malicious_user) { build(:user) }
@@ -23,7 +63,8 @@ describe ApplicationController do
       let(:new_attrs) { { user: user.attributes.merge({ 'activity_x' => 2 }) } }
 
       before do
-        expect(controller).to receive(:current_user).and_return user
+        expect(controller).to receive(:current_user).
+          at_least(:once).and_return user
         expect(controller).to receive(:params).exactly(:twice).and_return new_attrs
       end
 
@@ -33,36 +74,28 @@ describe ApplicationController do
     end
   end
 
-  describe '#authorize_user' do
+  describe '#reject_unauthorized_actions' do
     context "when current user is not authorized" do
-      it 'redirects to sign in' do
+       it 'redirects to sign in' do
+        expect(controller).to receive(:require_session)
         expect(controller).to receive(:current_user_authorized?).
           exactly(:once).and_return(false)
-        expect_any_instance_of(ApplicationController).
-          to receive(:redirect_to).with new_user_session_path
+        expect(controller).to receive(:redirect_to).with new_user_session_path
 
-        controller.authorize_user
-      end
-    end
+        controller.reject_unauthorized_actions
+       end
+     end
 
     context "when current user is authorized" do
       let(:user) { build(:user) }
-      it 'does not redirect' do
+       it 'does not redirect' do
+        expect(controller).to receive(:require_session)
         expect(controller).to receive(:current_user_authorized?).
           exactly(:once).and_return(true)
 
-        controller.authorize_user
-        expect_any_instance_of(ApplicationController).
-          not_to receive(:redirect_to).with new_user_session_path
-      end
-    end
-  end
-
-  describe '#add_generic_error!' do
-    it 'should add a particular string to flash[:error]' do
-      expect { controller.add_generic_error! }.
-        to change { flash[:error] }.
-          to ApplicationController::GENERIC_ERROR_MSG
+        controller.reject_unauthorized_actions
+        expect(controller).not_to receive(:redirect_to)
+       end
     end
   end
 end
