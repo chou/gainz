@@ -1,5 +1,5 @@
 Lg::Application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users' }
   resource :dashboard, only: [:show]
   resources :users, only: [:update]
 

@@ -49,7 +49,7 @@ describe ApplicationController do
       let(:troll_attrs) { { user: victim.attributes.merge({ 'first_name' => 'No' }) } }
 
       before do
-        expect(controller).to receive(:current_user).and_return malicious_user
+        expect(controller).to receive(:current_user).at_least(:once).and_return malicious_user
         expect(controller).to receive(:params).exactly(:twice).and_return troll_attrs
       end
 

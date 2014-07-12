@@ -1,6 +1,53 @@
 require 'spec_helper'
 
 describe UsersController, type: :controller do
+  describe 'private methods' do
+    before do
+      UsersController.send(:public, *UsersController.private_instance_methods)
+    end
+
+    describe '#configure_permitted_parameters' do
+      it 'adds User::PERMITTED_PARAMS to the whitelist' do
+        user = double
+        expect(user).to receive(:permit).with(:password, :password_confirmation, *User::PERMITTED_PARAMS)
+        expect(controller.devise_parameter_sanitizer).to receive(:for).and_yield user
+
+        controller.configure_permitted_parameters
+      end
+    end
+
+    describe '#prep_params' do
+      let(:user){ build(:user) }
+
+      it 'should clean params' do
+        expect(controller).to receive(:user_params).and_return user.attributes
+
+        controller.prep_params
+      end
+
+      context 'when there is no password provided' do
+        let(:submitted_params) { user.attributes.merge(password: "", password_confirmation: "") }
+
+        it 'should remove password/confirmation if not provided' do
+          expect(controller).to receive(:user_params).and_return submitted_params
+          expect(submitted_params).to receive(:delete).with(:password).and_call_original
+          expect(submitted_params).to receive(:delete).with(:password_confirmation).and_call_original
+
+          controller.configure_permitted_parameters
+          expect(controller.prep_params).to eq submitted_params.except(:password, :password_confirmation)
+        end
+      end
+    end
+
+    describe '#user_params' do
+      it 'devise::sanitizes account_update attrs' do
+        expect(controller.devise_parameter_sanitizer).to receive(:sanitize).with(:account_update)
+
+        controller.user_params
+      end
+    end
+  end
+
   describe '#update' do
     let(:permitted_params){
                             { activity_x: 1.4,
@@ -15,15 +62,66 @@ describe UsersController, type: :controller do
                           }
     let(:user){ create(:user, permitted_params) }
 
-    it 'should check user authorization' do
-      expect(controller).to receive(:authorize_user)
+    context 'when there is a current user' do
+      before do
+        expect(controller).to receive(:current_user).
+                  at_least(:once).and_return user
+      end
 
-      put :update, id: user.id, user: user.attributes
+      context 'and the account edited belongs to the current user' do
+        before do
+          expect(controller).to receive(:reject_unauthorized_actions)
+        end
+
+        context 'and the params are valid' do
+          it 'should succeed and redirect to the dashboard path' do
+            expect(controller).to receive(:prep_params).and_return user.attributes
+
+            put :update, id: user.id, user: user.attributes
+
+            expect(response).to redirect_to dashboard_path
+            expect(User.find(user.id).height).to eq permitted_params[:height]
+          end
+        end
+
+        context 'but the params are invalid' do
+          let(:invalid_attrs){ user.attributes.merge 'activity_x' => 'FEELTHEPUMP' }
+
+          it 'should call #add_generic_error!' do
+            expect(controller).to receive(:prep_params).and_return invalid_attrs
+            expect(controller).to receive :add_generic_error!
+
+            put :update, id: user.id, user: invalid_attrs
+            expect(response.status).to eq 400
+            expect(response).to render_template 'dashboards/show'
+          end
+        end
+      end
+
+      context 'and the account edited does not belong to the current user' do
+        let!(:victim) { build(:user, id: 1765) }
+        let!(:malicious_user) { build(:user) }
+        let(:troll_attrs) { victim.attributes.merge({ 'first_name' => 'No' }) }
+
+        before do
+          expect(controller).to receive(:current_user_authorized?).
+            and_return false
+        end
+
+        it 'should redirect to sign in' do
+          put :update, id: victim.id, user: troll_attrs
+
+          expect(response).to redirect_to new_user_session_path
+        end
+      end
     end
 
+    let(:posted_params){ user.attributes.merge('first_name' => 'Moar') }
+
     it 'should load the current template vars' do
+      expect(controller).to receive(:prep_params).and_return posted_params
       expect(controller).to receive(:current_user).at_least(:once).and_return user
-      put :update, id: user.id, user: user.attributes.merge('first_name' => 'Moar')
+      put :update, id: user.id, user: posted_params
 
       expect(assigns :id).to eq user.id
       expect(assigns :height).to eq user.height
@@ -33,49 +131,6 @@ describe UsersController, type: :controller do
       expect(assigns :activity_x).to eq user.activity_x
       expect(assigns :first_name).to eq 'Moar'
       expect(assigns :last_name).to eq user.last_name
-    end
-
-    context 'when the account edited belongs to the current user' do
-      before do
-        expect(controller).to receive(:current_user).at_least(:once).and_return user
-      end
-
-      context 'when the params are valid' do
-        it 'should succeed and redirect to the dashboard path' do
-          put :update, id: user.id, user: user.attributes
-
-          expect(response.status).to eq 302
-          expect(User.find(user.id).height).to eq permitted_params[:height]
-        end
-      end
-
-      context 'when the params are invalid' do
-
-        let(:invalid_attrs){ user.attributes.merge 'activity_x' => 'FEELTHEPUMP' }
-
-        it 'should call #add_generic_error!' do
-          expect(controller).to receive :add_generic_error!
-          put :update, id: user.id, user: invalid_attrs
-          expect(response.status).to eq 400
-          expect(response).to render_template 'dashboards/show'
-        end
-      end
-    end
-
-    context 'when the account edited does not belong to the current user' do
-      let!(:victim) { build(:user, id: 1765) }
-      let!(:malicious_user) { build(:user) }
-      let(:troll_attrs) { victim.attributes.merge({ 'first_name' => 'No' }) }
-
-      before do
-        expect(controller).to receive(:current_user).at_least(:once).and_return malicious_user
-      end
-
-      it 'should redirect to sign in' do
-        put :update, id: victim.id, user: troll_attrs
-
-        expect(response).to redirect_to new_user_session_path
-      end
     end
   end
 end
