@@ -3,7 +3,7 @@ require 'helpers/acceptance_spec_helpers'
 
 describe 'a user', type: :feature do
   describe 'signing up' do
-    xit 'is successful' do
+    it 'is successful' do
       visit root_url
       click_on 'Make Gainz'
 
@@ -51,7 +51,7 @@ describe 'a user', type: :feature do
     it 'can sign out' do
       visit dashboard_path
       click_on 'Sign Out'
-      expect(page).to have_content 'Signed out successfully'
+      expect(page).to have_content 'Make Gainz'
     end
 
     it 'can enter primary stats' do

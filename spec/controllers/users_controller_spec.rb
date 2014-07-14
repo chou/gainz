@@ -48,6 +48,49 @@ describe UsersController, type: :controller do
     end
   end
 
+  describe '#new' do
+    it 'renders new' do
+      get :new
+
+      expect(response).to render_template 'devise/registrations/new'
+    end
+  end
+
+  describe '#create' do
+    context 'when the params are complete' do
+      let(:complete_params){
+                              { user: {
+                                        email: 'newgainz@here.com',
+                                        password: 'thisissekretlulz',
+                                        password_confirmation: 'thisissekretlulz'
+                                      }
+                              }
+                           }
+
+      it 'creates a new user' do
+        users_count = User.all.count
+        post :create, complete_params
+
+        expect(User.all.count).to eq users_count + 1
+      end
+
+      it 'redirects to sign in after successful registration' do
+        post :create, complete_params
+
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'when the params are incomplete' do
+      let(:incomplete_params){ {email: 'newgainz@here.com'} }
+      it 'renders the registration page' do
+        post :create, incomplete_params
+
+        expect(response).to render_template 'devise/registrations/new'
+      end
+    end
+  end
+
   describe '#update' do
     let(:permitted_params){
                             { activity_x: 1.4,

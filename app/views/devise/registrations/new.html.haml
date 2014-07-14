@@ -1,6 +1,6 @@
 %h2 Sign up
 
-= form_for(:user, as: :user, url: registration_path(:user)) do |f|
+= form_for :user, as: :user, url: registration_path(:user), :html => { :class => 'new_user'} do |f|
   = render 'shared/flash_notices'
 
   = f.label :email

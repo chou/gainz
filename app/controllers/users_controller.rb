@@ -1,14 +1,27 @@
 class UsersController < ApplicationController
-  before_filter :reject_unauthorized_actions
-  before_filter :configure_permitted_parameters
+  before_filter :reject_unauthorized_actions, only: :update
+  before_filter :configure_permitted_parameters, only: :update
+
+  def create
+    user = User.new(prep_params)
+
+    if user.save
+      redirect_to new_user_session_path
+    else
+      render 'devise/registrations/new'
+    end
+  end
+
+  def new
+    render 'devise/registrations/new' and return
+  end
 
   def update
     user = current_user
     set_template_vars
     params['user'].delete('id')
-    account_update_params = prep_params
 
-    if user.update_without_password(account_update_params)
+    if user.update_without_password(prep_params)
       set_template_vars
       redirect_to dashboard_path
     else
