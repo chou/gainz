@@ -19,20 +19,16 @@ class User < ActiveRecord::Base
   validate :birthdate_is_date, on: :update
   validates_uniqueness_of :email
 
-  PERMITTED_PARAMS = [ :email, :birthdate, :height, :weight, :activity_x,
-                       :lean_mass, :first_name, :last_name ].freeze
+  PERMITTED_PARAMS = [:email, :birthdate, :height, :weight, :activity_x,
+                      :lean_mass, :first_name, :last_name].freeze
 
   def age
-    if birthdate
-      return ((Date.today - birthdate) / 365).round
-    end
+    return ((Date.today - birthdate) / 365).round unless birthdate
   end
 
   private
 
   def birthdate_is_date
-    unless birthdate.is_a? Date
-      errors.add(:birthdate, "must be a valid date")
-    end
+    errors.add(:birthdate, 'must be a valid date') unless birthdate.is_a? Date
   end
 end

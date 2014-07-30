@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AccountsController do
   describe '#show' do
-    let!(:user){ build(:user, id: 425) }
+    let!(:user) { build(:user, id: 425) }
 
     it 'checks for a user' do
       expect(controller).to receive(:current_user).

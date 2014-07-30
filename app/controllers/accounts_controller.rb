@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-  before_filter :require_session
+  before_action :require_session
 
   def show
     @birthdate  = current_user.birthdate

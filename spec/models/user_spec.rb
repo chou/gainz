@@ -42,7 +42,7 @@ describe User do
     let! (:user) { build(:user, birthdate: Date.new(2000, 1, 1)) }
 
     it "should return the user's age in years" do
-      Timecop.freeze(Date.new(2014,1,1)) do
+      Timecop.freeze(Date.new(2014, 1, 1)) do
         expect(user.age).to eq 14
       end
     end

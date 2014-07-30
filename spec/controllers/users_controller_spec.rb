@@ -9,15 +9,18 @@ describe UsersController, type: :controller do
     describe '#configure_permitted_parameters' do
       it 'adds User::PERMITTED_PARAMS to the whitelist' do
         user = double
-        expect(user).to receive(:permit).with(:password, :password_confirmation, *User::PERMITTED_PARAMS)
-        expect(controller.devise_parameter_sanitizer).to receive(:for).and_yield user
+        expect(user).to receive(:permit).with(:password,
+                                              :password_confirmation,
+                                              *User::PERMITTED_PARAMS)
+        expect(controller.devise_parameter_sanitizer).
+          to receive(:for).and_yield user
 
         controller.configure_permitted_parameters
       end
     end
 
     describe '#prep_params' do
-      let(:user){ build(:user) }
+      let(:user) { build(:user) }
 
       it 'should clean params' do
         expect(controller).to receive(:user_params).and_return user.attributes
@@ -26,22 +29,29 @@ describe UsersController, type: :controller do
       end
 
       context 'when there is no password provided' do
-        let(:submitted_params) { user.attributes.merge(password: "", password_confirmation: "") }
+        let(:submitted_params) do
+          user.attributes.merge(password: '', password_confirmation: '')
+        end
 
         it 'should remove password/confirmation if not provided' do
-          expect(controller).to receive(:user_params).and_return submitted_params
-          expect(submitted_params).to receive(:delete).with(:password).and_call_original
-          expect(submitted_params).to receive(:delete).with(:password_confirmation).and_call_original
+          expect(controller).to receive(:user_params).
+            and_return submitted_params
+          expect(submitted_params).to receive(:delete).with(:password).
+            and_call_original
+          expect(submitted_params).to receive(:delete).
+            with(:password_confirmation).and_call_original
 
           controller.configure_permitted_parameters
-          expect(controller.prep_params).to eq submitted_params.except(:password, :password_confirmation)
+          expect(controller.prep_params).
+            to eq submitted_params.except(:password, :password_confirmation)
         end
       end
     end
 
     describe '#user_params' do
       it 'devise::sanitizes account_update attrs' do
-        expect(controller.devise_parameter_sanitizer).to receive(:sanitize).with(:account_update)
+        expect(controller.devise_parameter_sanitizer).
+          to receive(:sanitize).with(:account_update)
 
         controller.user_params
       end
@@ -58,14 +68,15 @@ describe UsersController, type: :controller do
 
   describe '#create' do
     context 'when the params are complete' do
-      let(:complete_params){
-                              { user: {
-                                        email: 'newgainz@here.com',
-                                        password: 'thisissekretlulz',
-                                        password_confirmation: 'thisissekretlulz'
-                                      }
-                              }
-                           }
+      let(:complete_params) do
+        {
+          user: {
+            email: 'newgainz@here.com',
+            password: 'thisissekretlulz',
+            password_confirmation: 'thisissekretlulz'
+          }
+        }
+      end
 
       it 'creates a new user' do
         users_count = User.all.count
@@ -82,7 +93,7 @@ describe UsersController, type: :controller do
     end
 
     context 'when the params are incomplete' do
-      let(:incomplete_params){ {email: 'newgainz@here.com'} }
+      let(:incomplete_params) { { email: 'newgainz@here.com' } }
       it 'renders the registration page' do
         post :create, incomplete_params
 
@@ -92,18 +103,18 @@ describe UsersController, type: :controller do
   end
 
   describe '#update' do
-    let(:permitted_params){
-                            { activity_x: 1.4,
-                              birthdate: '20110801',
-                              email: 'max@gainz.com',
-                              first_name: 'Max',
-                              height: 74,
-                              last_name: 'Gainz',
-                              lean_mass: 0.9,
-                              weight: 190
-                            }
-                          }
-    let(:user){ create(:user, permitted_params) }
+    let(:permitted_params) do
+      { activity_x: 1.4,
+        birthdate: '20110801',
+        email: 'max@gainz.com',
+        first_name: 'Max',
+        height: 74,
+        last_name: 'Gainz',
+        lean_mass: 0.9,
+        weight: 190
+      }
+    end
+    let(:user) { create(:user, permitted_params) }
 
     context 'when there is a current user' do
       before do
@@ -118,7 +129,8 @@ describe UsersController, type: :controller do
 
         context 'and the params are valid' do
           it 'should succeed and redirect to the dashboard path' do
-            expect(controller).to receive(:prep_params).and_return user.attributes
+            expect(controller).to receive(:prep_params).
+              and_return user.attributes
 
             put :update, id: user.id, user: user.attributes
 
@@ -128,7 +140,9 @@ describe UsersController, type: :controller do
         end
 
         context 'but the params are invalid' do
-          let(:invalid_attrs){ user.attributes.merge 'activity_x' => 'FEELTHEPUMP' }
+          let(:invalid_attrs) do
+            user.attributes.merge 'activity_x' => 'FEELTHEPUMP'
+          end
 
           it 'should call #add_generic_error!' do
             expect(controller).to receive(:prep_params).and_return invalid_attrs
@@ -144,7 +158,7 @@ describe UsersController, type: :controller do
       context 'and the account edited does not belong to the current user' do
         let!(:victim) { build(:user, id: 1765) }
         let!(:malicious_user) { build(:user) }
-        let(:troll_attrs) { victim.attributes.merge({ 'first_name' => 'No' }) }
+        let(:troll_attrs) { victim.attributes.merge('first_name' => 'No') }
 
         before do
           expect(controller).to receive(:current_user_authorized?).
@@ -159,11 +173,12 @@ describe UsersController, type: :controller do
       end
     end
 
-    let(:posted_params){ user.attributes.merge('first_name' => 'Moar') }
+    let(:posted_params) { user.attributes.merge('first_name' => 'Moar') }
 
     it 'should load the current template vars' do
       expect(controller).to receive(:prep_params).and_return posted_params
-      expect(controller).to receive(:current_user).at_least(:once).and_return user
+      expect(controller).to receive(:current_user).at_least(:once).
+        and_return user
       put :update, id: user.id, user: posted_params
 
       expect(assigns :id).to eq user.id

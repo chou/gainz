@@ -7,9 +7,6 @@ gem 'devise'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
@@ -23,6 +20,7 @@ group :test, :development do
   gem 'haml'
   gem 'jasmine'
   gem 'rspec-rails'
+  gem 'rubocop'
 end
 
 group :test do

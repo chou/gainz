@@ -11,20 +11,20 @@ describe 'a user', type: :feature do
       fill_in 'user[password]', with: 'fakepassword'
       fill_in 'user[password_confirmation]', with: 'fakepassword'
 
-      expect {
-        within(".new_user") do
+      expect do
+        within('.new_user') do
           click_on 'Sign Up'
         end
-        }.to change { User.all.count }.by 1
+      end.to change { User.all.count }.by 1
 
       expect(User.last.email).to eq 'new_user@gainz.com'
     end
   end
 
-  let!(:user) {
+  let!(:user) do
     FactoryGirl.create(:user, first_name: 'Max', last_name: 'Gainz',
-                 password: '1moarREP', height: 180, id: 4123
-    )}
+                        password: '1moarREP', height: 180, id: 4123)
+  end
 
   describe 'logging in' do
     it 'has a happy path' do
@@ -44,8 +44,8 @@ describe 'a user', type: :feature do
     end
 
     def extract_primary_stats
-      primary_stats_keys = ['height', 'lean_mass', 'activity_x', 'weight']
-      primary_stats = user.attributes.select { |a| primary_stats_keys.include? a }
+      primary_stats_keys = %w(height lean_mass activity_x weight)
+      user.attributes.select { |a| primary_stats_keys.include? a }
     end
 
     it 'can sign out' do
@@ -73,8 +73,8 @@ describe 'a user', type: :feature do
     it 'can edit account information' do
       visit account_path
 
-      fill_in "user[first_name]", with: 'Doyou'
-      fill_in "user[last_name]", with: 'Evenlift'
+      fill_in 'user[first_name]', with: 'Doyou'
+      fill_in 'user[last_name]', with: 'Evenlift'
 
       click_on 'Save'
 

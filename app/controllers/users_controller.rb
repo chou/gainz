@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :reject_unauthorized_actions, only: :update
-  before_filter :configure_permitted_parameters, only: :update
+  before_action :reject_unauthorized_actions, only: :update
+  before_action :configure_permitted_parameters, only: :update
 
   def create
     user = User.new(prep_params)
@@ -31,6 +31,7 @@ class UsersController < ApplicationController
   end
 
   private
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:account_update) do |u|
       u.permit(:password, :password_confirmation, *User::PERMITTED_PARAMS)

@@ -5,7 +5,7 @@ FactoryGirl.define do
 
   factory :user do
     email
-    password "7n4qGRW47gc^$#b"
+    password '7n4qGRW47gc^$#b'
     birthdate DateTime.new(2011, 8, 1)
     lean_mass 95.2
     activity_x 2
