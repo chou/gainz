@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140620043830) do
+ActiveRecord::Schema.define(version: 20140725152647) do
+
+  create_table "user_presenters", force: true do |t|
+    t.string  "email"
+    t.string  "first_name"
+    t.string  "last_name"
+    t.string  "birthdate"
+    t.decimal "weight"
+    t.decimal "height"
+    t.decimal "activity_x"
+    t.decimal "lean_mass"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email"
