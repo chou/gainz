@@ -4,9 +4,10 @@ class UserPresenter
   extend ActiveModel::Naming
 
   attr_accessor :email, :birthdate, :height, :weight, :activity_x,
-                :lean_mass, :first_name, :last_name
+                :lean_mass, :first_name, :last_name, :id, :goal
 
   def initialize(user)
+    @id         = user.id
     @email      = user.email
     @birthdate  = user.birthdate
     @height     = user.height
@@ -15,6 +16,7 @@ class UserPresenter
     @lean_mass  = user.lean_mass
     @first_name = user.first_name
     @last_name  = user.last_name
+    @goal       = user.goal
   end
 
   def attributes

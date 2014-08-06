@@ -2,16 +2,20 @@ require 'spec_helper'
 
 describe UserPresenter do
   let(:user_attrs)do
-    { email: 'impossible_is@a_dare.com',
+    {
+      id: 2435,
+      email: 'impossible_is@a_dare.com',
       first_name: 'Muhammad',
       last_name: 'Ali',
       birthdate: Date.new(1942, 1, 17),
       height: 191,
       weight: 107,
       activity_x: 2,
-      lean_mass: 90
+      lean_mass: 90,
+      goal: 'Cut'
     }
   end
+
   let(:the_greatest) { build(:user, user_attrs) }
   let(:the_greatest_presenter) { UserPresenter.new(the_greatest) }
 

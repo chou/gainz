@@ -1,18 +1,24 @@
-%form{:action => "/users/#{@id}", :id => "edit_user_#{@id}", :method => 'post'}
+%form{:action => "/users/#{@user_presenter.id}", :id => "edit_user_#{@user_presenter.id}", :method => 'post'}
   %input{ :name => '_method', :type => 'hidden', :value => 'PUT'}
-  %input{ :name => 'user[id]', :type => 'hidden', :value => @id}
+  %input{ :name => 'user[id]', :type => 'hidden', :value => @user_presenter.id}
   %input{ :name => 'authenticity_token', :type => 'hidden', :value => "#{form_authenticity_token}"}
 
+  - if @user_presenter.goal
+    @user_presenter.goal
+  - else
+    .goal
+      Choose a goal to get started!
+      
   %label{ :for => 'user_height' } Height
-  %input{ :id => 'user_height', :name => 'user[height]', :type => 'text', :value => @height }
+  %input{ :id => 'user_height', :name => 'user[height]', :type => 'text', :value => @user_presenter.height }
 
   %label{ :for => 'user_weight' } Weight
-  %input{ :id => 'user_weight', :name => 'user[weight]', :type => 'text', :value => @weight}
+  %input{ :id => 'user_weight', :name => 'user[weight]', :type => 'text', :value => @user_presenter.weight}
 
   %label{ :for => 'user_activity_x' } Activity X
-  %input{ :id => 'user_activity_x', :name => 'user[activity_x]', :type => 'text', :value => @activity_x}
+  %input{ :id => 'user_activity_x', :name => 'user[activity_x]', :type => 'text', :value => @user_presenter.activity_x}
 
   %label{ :for => 'user_lean_mass' } Lean Mass
-  %input{ :id => 'user_lean_mass', :name => 'user[lean_mass]', :type => 'text', :value => @lean_mass}
+  %input{ :id => 'user_lean_mass', :name => 'user[lean_mass]', :type => 'text', :value => @user_presenter.lean_mass}
 
   %input{ :class => 'button tiny', :type => 'submit', :value => 'Save'}

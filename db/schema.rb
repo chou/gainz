@@ -11,18 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140725152647) do
-
-  create_table "user_presenters", force: true do |t|
-    t.string  "email"
-    t.string  "first_name"
-    t.string  "last_name"
-    t.string  "birthdate"
-    t.decimal "weight"
-    t.decimal "height"
-    t.decimal "activity_x"
-    t.decimal "lean_mass"
-  end
+ActiveRecord::Schema.define(version: 20140804200646) do
 
   create_table "users", force: true do |t|
     t.string   "email"
@@ -44,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140725152647) do
     t.integer  "weight"
     t.decimal  "activity_x"
     t.decimal  "lean_mass"
+    t.string   "goal"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

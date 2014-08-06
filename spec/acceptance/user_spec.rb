@@ -82,4 +82,28 @@ describe 'a user', type: :feature do
       expect(User.find(4123).last_name).to eq 'Evenlift'
     end
   end
+
+  describe 'choosing a goal' do
+    before do
+      sign_in_user user
+    end
+
+    def assert_goal(goal)
+      within 'goal' do
+        click_on goal
+      end
+      visit dashboard_path
+      expect(page).to have_content goal
+    end
+
+    xit 'can select and persist a goal' do
+      visit dashboard_path
+
+      expect(page).to have_content 'Choose a goal to get started!'
+
+      assert_goal('Cut')
+      assert_goal('Bulk')
+      assert_goal('Recomp')
+    end
+  end
 end

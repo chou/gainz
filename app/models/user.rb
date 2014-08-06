@@ -20,10 +20,10 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
 
   PERMITTED_PARAMS = [:email, :birthdate, :height, :weight, :activity_x,
-                      :lean_mass, :first_name, :last_name].freeze
+                      :lean_mass, :first_name, :last_name, :goal].freeze
 
   def age
-    return ((Date.today - birthdate) / 365).round unless birthdate
+    ((Date.today - birthdate) / 365).round unless birthdate.nil?
   end
 
   private
