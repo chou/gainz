@@ -20,10 +20,12 @@ class UserPresenter
   end
 
   def attributes
-    Hash[ instance_variables.map do |var|
-      symbolized_var = var[1..-1].to_sym
-      [symbolized_var, instance_variable_get(var)]
+    symbolized_ivars = instance_variables.map do |var|
+      var[1..-1].to_sym
     end
-    ]
+    ivals = symbolized_ivars.map do |symbolized_var|
+      [symbolized_var, instance_variable_get("@#{symbolized_var}")]
+    end
+    Hash[ivals]
   end
 end
