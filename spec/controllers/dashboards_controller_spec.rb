@@ -23,10 +23,15 @@ describe DashboardsController, type: :controller do
         expect(response).to render_template 'dashboards/show'
       end
 
-      xit 'passes along primary stats' do
+      it 'passes along primary stats' do
         get :show
+
+        user_primary_stats = user.attributes.select do |k, _|
+          User::PRIMARY_STATS.include? k.to_sym
+        end
+
         expect(assigns(:user_presenter).attributes).
-          to eq user.attributes.select { |k, _| User::PRIMARY_STATS.include? k }
+          to eq(user_primary_stats.symbolize_keys)
       end
     end
 

@@ -22,6 +22,9 @@ class User < ActiveRecord::Base
   PERMITTED_PARAMS = [:email, :birthdate, :height, :weight, :activity_x,
                       :lean_mass, :first_name, :last_name, :goal].freeze
 
+  PRIMARY_STATS = [:email, :birthdate, :height, :weight, :activity_x,
+                   :lean_mass, :first_name, :last_name, :id, :goal]
+
   def age
     ((Date.today - birthdate) / 365).round unless birthdate.nil?
   end
