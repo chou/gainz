@@ -89,7 +89,7 @@ describe 'a user', type: :feature do
     end
 
     def assert_goal(goal)
-      within 'goal' do
+      within '.goal' do
         click_on goal
       end
       visit dashboard_path
