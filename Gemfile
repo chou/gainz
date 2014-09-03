@@ -21,6 +21,7 @@ group :test, :development do
   gem 'jasmine'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'launchy'
 end
 
 group :test do
