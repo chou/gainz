@@ -8,6 +8,8 @@ AllCops:
     - 'db/**/*'
     - 'config/**/*'
     - 'script/**/*'
+Style/Documentation:
+  Enabled: false
 
 Style/DotPosition:
   EnforcedStyle: trailing
