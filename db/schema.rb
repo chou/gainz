@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140804200646) do
+ActiveRecord::Schema.define(version: 20140906051212) do
+
+  create_table "food_records", force: true do |t|
+    t.string  "name"
+    t.integer "quantity"
+    t.string  "units"
+    t.date    "date"
+    t.integer "user_id"
+    t.integer "food_record_stats_id"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email"
