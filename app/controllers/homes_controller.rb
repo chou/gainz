@@ -1,5 +1,5 @@
 class HomesController < ApplicationController
-	 def show
- 		 'success'
- 	end
+  def show
+    'success'
+  end
 end
