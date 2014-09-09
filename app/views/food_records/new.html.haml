@@ -1,0 +1,21 @@
+%form{:action => "/users/#{@user_id}/food_records", :user_id => @user_id, :method => 'post'}
+
+  %input{ :name => 'user[id]', :type => 'hidden', :value => @id}
+  %input{ :name => 'authenticity_token', :type => 'hidden', :value => "#{form_authenticity_token}"}
+
+  - if flash[:error]
+    = flash[:error]
+
+  %label{:for => 'food_record_name'} Food
+  %input{:id => 'food_record_name', :name => 'food_record[name]'}
+
+  %label{:for => 'food_record_quantity'} Quantity
+  %input{:id => 'food_record_quantity', :name => 'food_record[quantity]'}
+
+  %label{:for => 'food_record_units'} Units
+  %input{:id => 'food_record_units', :name => 'food_record[units]'}
+
+  %label{:for => 'food_record_date'} Date
+  %input{:id => 'food_record_date', :name => 'food_record[date]'}
+
+  %input{:class => 'button tiny', :type => 'submit', :value => 'Done'}
