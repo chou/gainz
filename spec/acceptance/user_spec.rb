@@ -23,7 +23,7 @@ describe 'a user', type: :feature do
 
   let!(:user) do
     FactoryGirl.create(:user, first_name: 'Max', last_name: 'Gainz',
-                        password: '1moarREP', height: 180, id: 4123)
+                              password: '1moarREP', height: 180, id: 4123)
   end
 
   describe 'logging in' do
