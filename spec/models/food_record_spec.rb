@@ -60,8 +60,13 @@ describe FoodRecord do
       end
 
       context 'when all the attributes are the same' do
-        let(:first_food_record) { build(:food_record, name: 'Peanut Butter Porter') }
-        let(:same_food_record) { build(:food_record, name: 'Peanut Butter Porter') }
+        let(:first_food_record) do
+          build(:food_record, name: 'Peanut Butter Porter')
+        end
+
+        let(:same_food_record) do
+          build(:food_record, name: 'Peanut Butter Porter')
+        end
 
         it 'returns true' do
           expect(first_food_record.==(same_food_record)).to be_truthy
@@ -69,8 +74,13 @@ describe FoodRecord do
       end
 
       context 'when any attributes do not match' do
-        let(:first_food_record) { build(:food_record, name: 'Peanut Butter Porter') }
-        let(:different_food_record) { build(:food_record, name: 'Huckleberry Preserves') }
+        let(:first_food_record) do
+          build(:food_record, name: 'Peanut Butter Porter')
+        end
+
+        let(:different_food_record) do
+          build(:food_record, name: 'Huckleberry Preserves')
+        end
 
         it 'returns false' do
           expect(first_food_record.==(different_food_record)).to be_falsy

@@ -1,6 +1,4 @@
 %form{:action => "/users/#{@user_id}/food_records", :user_id => @user_id, :method => 'post'}
-
-  %input{ :name => 'user[id]', :type => 'hidden', :value => @id}
   %input{ :name => 'authenticity_token', :type => 'hidden', :value => "#{form_authenticity_token}"}
 
   - if flash[:error]

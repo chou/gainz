@@ -1,1 +1,14 @@
 = link_to 'Add', new_user_food_record_path(user_id: @user_id)
+%table{ :id => 'food_records_table'}
+  %tbody
+    %tr
+      %th Name
+      %th Quantity
+      %th Units
+      %th Date
+    - @food_records.each do |food_record|
+      %tr
+        %td= food_record.name
+        %td= food_record.quantity
+        %td= food_record.units
+        %td= food_record.date

@@ -106,4 +106,42 @@ describe 'a user', type: :feature do
       assert_goal('Recomp')
     end
   end
+
+  describe 'logging' do
+    before do
+      sign_in_user user
+    end
+
+    describe 'consumption' do
+      it 'can log food entries' do
+        click_on 'Eat'
+        click_on 'Add'
+        fill_in 'food_record_name', with: 'Halal Cart Chicken & Rice'
+        fill_in 'food_record_quantity', with: '500'
+        fill_in 'food_record_units', with: 'grams'
+        fill_in 'food_record_date', with: '2007/07/07'
+        click_on 'Done'
+
+        visit eat_index_path
+
+        expect(page).to have_content 'Halal Cart Chicken & Rice'
+      end
+    end
+
+    describe 'expenditure' do
+      xit 'can log training entries' do
+        click_on 'Train'
+        click_on 'Add'
+        fill_in 'exercise', with: 'Squats'
+        fill_in 'weight', with: '165'
+        fill_in 'reps', with: '5'
+        click_on 'Done'
+
+        visit new_user_train_path(current_user)
+
+        expect(page).to have_content 'Squats'
+        expect(page).to have_content '165'
+      end
+    end
+  end
 end

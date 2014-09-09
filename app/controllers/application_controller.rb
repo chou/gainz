@@ -31,6 +31,13 @@ class ApplicationController < ActionController::Base
     redirect_to new_user_session_path unless current_user
   end
 
+  def verify_ownership
+    if current_user.id != params[:user_id].to_i
+      flash[:error] = 'Not authorized'
+      redirect_to dashboard_path and return
+    end
+  end
+
   protected
 
   def resource_class

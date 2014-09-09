@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :food_records
+
   validates :email, presence: true, uniqueness: true
   validates :birthdate, presence: true,  on: :update
   validates :height, presence: true, numericality: true, on: :update
