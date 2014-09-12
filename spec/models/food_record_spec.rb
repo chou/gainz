@@ -11,7 +11,7 @@ describe FoodRecord do
   it { should ensure_inclusion_of(:units).in_array(described_class::UNITS) }
 
   it { should belong_to :user }
-  xit { should belong_to :food_record_stats }
+  it { should belong_to :food_record_stat }
 
   let(:user) { create(:user) }
   let(:food_record) { create(:food_record, user_id: user.id) }

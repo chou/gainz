@@ -11,7 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140906051212) do
+ActiveRecord::Schema.define(version: 20140911054405) do
+
+  create_table "food_record_stats", force: true do |t|
+    t.integer "amount"
+    t.integer "calories"
+    t.integer "carb"
+    t.integer "cholesterol"
+    t.integer "fiber"
+    t.string  "name"
+    t.integer "protein"
+    t.integer "sat_fat"
+    t.integer "sodium"
+    t.integer "sugar"
+    t.integer "tot_fat"
+    t.string  "units"
+    t.integer "trans_fat"
+  end
 
   create_table "food_records", force: true do |t|
     t.string  "name"
@@ -19,7 +35,7 @@ ActiveRecord::Schema.define(version: 20140906051212) do
     t.string  "units"
     t.date    "date"
     t.integer "user_id"
-    t.integer "food_record_stats_id"
+    t.integer "food_record_stat_id"
   end
 
   create_table "users", force: true do |t|

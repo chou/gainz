@@ -5,6 +5,6 @@ FactoryGirl.define do
     quantity 400
     units 'grams'
     user_id 441
-    food_record_stats_id 492
+    food_record_stat_id 492
   end
 end

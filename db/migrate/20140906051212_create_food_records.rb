@@ -6,7 +6,7 @@ class CreateFoodRecords < ActiveRecord::Migration
       t.string :units
       t.date  :date
       t.integer :user_id
-      t.integer :food_record_stats_id
+      t.integer :food_record_stat_id
     end
   end
 end

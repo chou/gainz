@@ -1,8 +1,8 @@
 class FoodRecord < ActiveRecord::Base
-  belongs_to :food_record_stats
+  belongs_to :food_record_stat
   belongs_to :user
 
-  PERMITTED_PARAMS = [:date, :food_record_stats_id, :name,
+  PERMITTED_PARAMS = [:date, :food_record_stat_id, :name,
                       :quantity, :units, :user_id]
   UNITS = %w(grams ounces).freeze
 
